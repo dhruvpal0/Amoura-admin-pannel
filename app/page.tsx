@@ -28,17 +28,8 @@ export default function AdminDashboard() {
     }
   };
 
-  if (!mounted || loading) {
-    return (
-      <div className="space-y-8 animate-pulse">
-        <div className="h-20 bg-[#13141C] rounded-2xl border border-[#2A2A3C] w-full"></div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-28 bg-[#13141C] rounded-2xl border border-[#2A2A3C]"></div>
-          ))}
-        </div>
-      </div>
-    );
+  if (!mounted) {
+    return null;
   }
 
   const metrics = data?.metrics || {
@@ -87,7 +78,9 @@ export default function AdminDashboard() {
             <span>Registered Users</span>
             <span className="text-lg group-hover:scale-110 transition">👥</span>
           </div>
-          <p className="text-3xl font-black text-white mt-2 tracking-tight">{metrics.totalUsers}</p>
+          <p className="text-3xl font-black text-white mt-2 tracking-tight">
+            {loading ? <span className="animate-pulse text-gray-600">...</span> : metrics.totalUsers}
+          </p>
           <span className="text-emerald-400 text-[11px] font-bold mt-1 inline-block">
             ● Supabase Cloud Records
           </span>
@@ -99,7 +92,9 @@ export default function AdminDashboard() {
             <span>Active AI Characters</span>
             <span className="text-lg group-hover:scale-110 transition">🎭</span>
           </div>
-          <p className="text-3xl font-black text-white mt-2 tracking-tight">{metrics.totalAIProfiles}</p>
+          <p className="text-3xl font-black text-white mt-2 tracking-tight">
+            {loading ? <span className="animate-pulse text-gray-600">...</span> : metrics.totalAIProfiles}
+          </p>
           <span className="text-purple-400 text-[11px] font-bold mt-1 inline-block">
             Cloudinary Hosted Avatars
           </span>
@@ -111,7 +106,9 @@ export default function AdminDashboard() {
             <span>Matches Generated</span>
             <span className="text-lg group-hover:scale-110 transition">💖</span>
           </div>
-          <p className="text-3xl font-black text-[#FF3B70] mt-2 tracking-tight">{metrics.totalMatches}</p>
+          <p className="text-3xl font-black text-[#FF3B70] mt-2 tracking-tight">
+            {loading ? <span className="animate-pulse text-[#FF3B70]/50">...</span> : metrics.totalMatches}
+          </p>
           <span className="text-pink-400 text-[11px] font-bold mt-1 inline-block">
             Relationship Progression
           </span>
@@ -123,7 +120,9 @@ export default function AdminDashboard() {
             <span>AI Messages Sent</span>
             <span className="text-lg group-hover:scale-110 transition">💬</span>
           </div>
-          <p className="text-3xl font-black text-white mt-2 tracking-tight">{metrics.totalMessages}</p>
+          <p className="text-3xl font-black text-white mt-2 tracking-tight">
+            {loading ? <span className="animate-pulse text-gray-600">...</span> : metrics.totalMessages}
+          </p>
           <span className="text-blue-400 text-[11px] font-bold mt-1 inline-block">
             Hinglish WhatsApp Chat
           </span>
@@ -135,7 +134,9 @@ export default function AdminDashboard() {
             <span>Est. LLM Token Cost</span>
             <span className="text-lg group-hover:scale-110 transition">⚡</span>
           </div>
-          <p className="text-3xl font-black text-amber-400 mt-2 tracking-tight">{metrics.llmTokenCosts}</p>
+          <p className="text-3xl font-black text-amber-400 mt-2 tracking-tight">
+            {loading ? <span className="animate-pulse text-amber-400/50">...</span> : metrics.llmTokenCosts}
+          </p>
           <span className="text-amber-400/80 text-[11px] font-bold mt-1 inline-block">
             Gemini + Groq Engine
           </span>
@@ -154,7 +155,11 @@ export default function AdminDashboard() {
           </div>
 
           <div className="space-y-3">
-            {recentMatches.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-8 bg-[#0B0C10] rounded-2xl border border-[#2A2A3C] animate-pulse">
+                <p className="text-gray-400 text-xs font-medium">Loading matches...</p>
+              </div>
+            ) : recentMatches.length === 0 ? (
               <div className="text-center py-8 bg-[#0B0C10] rounded-2xl border border-[#2A2A3C]">
                 <p className="text-gray-400 text-xs font-medium">No active matches recorded yet.</p>
               </div>
@@ -201,7 +206,11 @@ export default function AdminDashboard() {
           </div>
 
           <div className="space-y-3">
-            {recentUsers.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-8 bg-[#0B0C10] rounded-2xl border border-[#2A2A3C] animate-pulse">
+                <p className="text-gray-400 text-xs font-medium">Loading users...</p>
+              </div>
+            ) : recentUsers.length === 0 ? (
               <div className="text-center py-8 bg-[#0B0C10] rounded-2xl border border-[#2A2A3C]">
                 <p className="text-gray-400 text-xs font-medium">No registered users yet.</p>
               </div>
